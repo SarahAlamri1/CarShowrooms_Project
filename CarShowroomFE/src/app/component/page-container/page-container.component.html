@@ -1,0 +1,59 @@
+<div class="flex h-fit flex-col gap-5">
+    <!-- Title Section -->
+    <section class="flex items-center gap-5 text-xl text-regular font-semibold mb-4">
+        {{ pageTitle }}
+    </section>
+
+     <!-- Button Section -->
+
+     <div class="flex justify-end">
+        <button class="px-4 py-2 w-20 h-fit rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-300" 
+        (click)="openDialog()">
+       {{'add'}}
+       </button>
+     </div>
+
+     <app-dialog-form *ngIf="isDialogOpen" [isAddNewCarDialog]="isAddNewCarDialog" [data]="row" [detailsInfo]="detailsInfo" [isEditDialog]='editeFlage' [isViewDialog]="viewFlage" [title]="editeFlage ? 'Edit Car Showroom' : viewFlage ? 'Details Car Showroom' : isAddNewCarDialog ? 'Add New Car' : 'Add Car Showroom'" (closeDialog)="close()" (validInfo)="validInfo($event)" (validEditInfo)="validEditInfo($event)">
+      </app-dialog-form>
+
+    <!-- Table Section -->
+    <table class="border border-gray-300 bg-white">
+        <thead>
+            <tr class="bg-gray-200">
+                <th *ngFor="let column of columns" class="border border-gray-300 px-4 py-2 text-left font-semibold">
+                    {{ column.label }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of data.content"  class="cursor-pointer hover:bg-gray-100">
+                <td *ngFor="let column of columns" class="border border-gray-300 px-4 py-2">
+                    <div *ngIf="column.field === 'A' " class="flex gap-3">
+
+                        <button *ngIf="column.field === 'A' " class="px-4 py-2 w-20 h-fit rounded-lg bg-orange text-white hover:bg-blue-600 focus:ring-blue-300" 
+                        (click)="view(row)">
+                       {{'View'}}
+                       </button>
+
+                        <button *ngIf="column.field === 'A' " class="px-4 py-2 w-20 h-fit rounded-lg bg-darkRed text-white hover:bg-blue-600 focus:ring-blue-300" 
+                        (click)="activeRow(row)">
+                       {{'Delete'}}
+                       </button>
+
+                       <button *ngIf="column.field === 'A' " class="px-4 py-2 w-20 h-fit rounded-lg bg-yellow text-white hover:bg-blue-600 focus:ring-blue-300" 
+                       (click)="edit(row)">
+                      {{'Edit'}}
+                      </button>
+                    </div>
+                    {{getProperty(row, column.field)}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="data.numberOfElements !== 0" class="flex flex-row bg-gray-200">
+        <img (click)="data.first ? null : previousPage()" [ngClass]="{'grey-svg': data.first}" alt="arrow right" class="p-3" src="assets/images/arrow-left.svg">
+        <span class="p-3">  {{ data.number + 1 }} of {{ data.totalPages }} Page </span>
+        <img (click)="data.last ? null : nextPage()" [ngClass]="{'grey-svg': data.last}"
+        alt="arrow left" class="p-3" src="assets/images/arrow-right.svg">
+    </div>
+</div>

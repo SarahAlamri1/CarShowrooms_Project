@@ -1,0 +1,88 @@
+<div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-[60%]" (click)="$event.stopPropagation()" [ngClass]="isViewDialog ? 'max-w-[90%]' : 'max-w-[60%]'">
+      <div class="p-4 border-b">
+        <h2 class="text-lg font-semibold">{{ title }}</h2>
+      </div>
+      <div >
+        <form #form="ngForm" [formGroup]="carShowroomForm" class="p-9 grid grid-cols-2 gap-4" *ngIf="!isViewDialog && !isAddNewCarDialog">
+            <app-custem-input *ngIf="!isEditDialog" [formGroupDirective]="form" label="Name" [controlName]="'name'"  formControlName="name" placeholder="Enter  name" [inputId]="'Name'" [hasError]="(carShowroomForm.get('name')?.invalid && carShowroomForm.get('name')?.touched) ?? false" [isRequired]="true" [hasError]="true"  errorMessage="required" ></app-custem-input>
+            <app-custem-input  *ngIf="!isEditDialog" [formGroupDirective]="form" label="Commercial registration number" formControlName="commercial_registration_number"  [controlName]="'commercial_registration_number'" [hasError]="(carShowroomForm.get('commercial_registration_number')?.invalid && carShowroomForm.get('commercial_registration_number')?.touched)  ?? false"  placeholder="Enter your commercial registration number" [isRequired]="true" [hasError]="true"  errorMessage="required"></app-custem-input>
+            <app-custem-input [formGroupDirective]="form" label="Manager name" [controlName]="'manager_name'" formControlName="manager_name" placeholder="Enter your manager name"  [hasError]="(carShowroomForm.get('manager_name')?.invalid && carShowroomForm.get('manager_name')?.touched)  ?? false"   errorMessage="required"></app-custem-input>
+            <app-custem-input [formGroupDirective]="form" label="Contact number" [controlName]="'contact_number'" formControlName="contact_number" placeholder="Enter your contact number" [hasError]="(carShowroomForm.get('contact_number')?.invalid && carShowroomForm.get('contact_number')?.touched)  ?? false"  [isRequired]="true" errorMessage="required"></app-custem-input>
+            <app-custem-input  [formGroupDirective]="form" label="Address" [controlName]="'address'" formControlName="address"  placeholder="Enter your address" [hasError]="(carShowroomForm.get('address')?.invalid && carShowroomForm.get('address')?.touched)  ?? false" [isRequired]="true"  errorMessage="required"></app-custem-input>
+         </form>
+
+         <form #Carform="ngForm" [formGroup]="carForm" class="p-9 grid grid-cols-2 gap-4" *ngIf="isAddNewCarDialog">
+            <app-custem-input [formGroupDirective]="Carform" label="vin" [controlName]="'vin'"  formControlName="vin" placeholder="Enter vin" [inputId]="'vin'" [hasError]="(carShowroomForm.get('vin')?.invalid && carShowroomForm.get('vin')?.touched) ?? false" [isRequired]="true" [hasError]="true"  errorMessage="required" ></app-custem-input>
+            <app-custem-input  [formGroupDirective]="Carform" label="maker" formControlName="maker"  [controlName]="'maker'" [hasError]="(carShowroomForm.get('maker')?.invalid && carShowroomForm.get('maker')?.touched)  ?? false"  placeholder="Enter maker" [isRequired]="true" [hasError]="true"  errorMessage="required"></app-custem-input>
+            <app-custem-input [formGroupDirective]="Carform" label="model" [controlName]="'model'" formControlName="model" placeholder="Enter model"  [hasError]="(carShowroomForm.get('model')?.invalid && carShowroomForm.get('model')?.touched)  ?? false"   errorMessage="required"></app-custem-input>
+            <app-custem-input [formGroupDirective]="Carform" label="model year" [controlName]="'model_year'" formControlName="model_year" placeholder="Enter model year" [hasError]="(carShowroomForm.get('model_year')?.invalid && carShowroomForm.get('contact_number')?.touched)  ?? false"  [isRequired]="true" errorMessage="required"></app-custem-input>
+            <app-custem-input   [formGroupDirective]="Carform" label="price" [controlName]="'price'" formControlName="price"  placeholder="Enter price" [hasError]="(carShowroomForm.get('price')?.invalid && carShowroomForm.get('price')?.touched)  ?? false" [isRequired]="true"  errorMessage="required"></app-custem-input>
+            <app-custem-input  [formGroupDirective]="Carform" label="commercial egistration number" [controlName]="'commercial_registration_number'" formControlName="commercial_registration_number"  placeholder="Enter commercial registration umber" [hasError]="(carShowroomForm.get('commercial_registration_number')?.invalid && carShowroomForm.get('commercial_registration_number')?.touched)  ?? false" [isRequired]="true"  errorMessage="required"></app-custem-input>
+           </form>
+    
+      </div>
+
+      <div *ngIf="isViewDialog && detailsInfo"  >
+        <div class="p-9 grid grid-cols-2 gap-4 ">
+            <div class="mb-2 font-semibold">{{'Commercial registration number'}}</div>
+            <div>{{detailsInfo.commercial_registration_number}}</div>
+
+            <div class="mb-2 font-semibold">{{'name'}}</div>
+            <div>{{detailsInfo.name}}</div>
+
+            <div class="mb-2 font-semibold">{{'manager name'}}</div>
+            <div>{{detailsInfo.manager_name}}</div>
+
+            <div class="mb-2 font-semibold">{{'contact number'}}</div>
+            <div>{{detailsInfo.contact_number}}</div>
+
+            <div class="mb-2 font-semibold">{{'address'}}</div>
+            <div>{{detailsInfo.address}}</div>
+        </div>
+
+            <div class=" p-9 mb-2 font-semibold">{{'Cars'}}</div>
+            <div class="overflow-y-auto h-80" *ngIf="detailsInfo.carList.length > 0"> 
+            <div *ngFor="let item of detailsInfo.carList; index as i" class="grid gap-4">
+                <div class="bg-white shadow-md rounded-lg p-6 m-4 border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="ftext-gray-700">Car {{ i + 1 }}</div>
+                    </div>
+            
+                    <div class="flex flex-row gap-2">
+                        <div class="font-medium font-semibold text-gray-600">VIN:</div>
+                        <div class="text-gray-800">{{ item.vin }} | </div>
+            
+                        <div class="font-medium font-semibold text-gray-600">Maker:</div>
+                        <div class="text-gray-800">{{ item.maker }} | </div>
+            
+                        <div class="font-medium font-semibold text-gray-600">Model:</div>
+                        <div class="text-gray-800">{{ item.model }} | </div>
+            
+                        <div class="font-medium font-semibold text-gray-600">Model Year:</div>
+                        <div class="text-gray-800">{{ item.modelYear }} | </div>
+            
+                        <div class="font-medium font-semibold text-gray-600">Price:</div>
+                        <div class="text-gray-800">{{ item.price }} </div>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div *ngIf="detailsInfo.carList <= 0" class="flex justify-center text-gray-600">{{'There is No Cars releted to this Showroom'}}</div>
+            
+      </div>
+
+      <div class="p-4 border-t flex justify-end gap-3" >
+        <button class="px-4 py-2 text-blue-500 border border-blue-500 hover:bg-blue-600 rounded" (click)="close()">
+          Close
+        </button>
+        <button   [ngClass]="(carShowroomForm.valid || carForm)? 'bg-blue-500 hover:bg-blue-600' : 'bg-grey-700'" *ngIf="!isEditDialog && !isViewDialog" class="px-4 py-2 text-white  rounded" (click)="add()">
+            Add 
+        </button>
+        <button *ngIf="isEditDialog && !isViewDialog" class="px-4 py-2 text-white bg-yellow hover:bg-blue-600 rounded" (click)="edit()">
+            Edit 
+        </button>
+      </div>
+    </div>
+  </div>

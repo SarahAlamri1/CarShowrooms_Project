@@ -1,0 +1,6 @@
+<app-page-container [pageTitle]="'showroom management'" [columns]="columns" [data]="data" (createInfo)="createNewCarShowroom($event)" 
+(clickedRow)="onDeleteCarShowroom($event)" (editInfo)="updateCarShowroom($event)"
+(viewInfo)="viewDetails($event)"
+[detailsInfo]="carShowroom"
+[isAddNewCarDialog]="false"
+(pagebleChange)="getAllShowrooms($event)"></app-page-container>
